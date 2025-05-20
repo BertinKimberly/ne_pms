@@ -20,6 +20,8 @@ import {
    User,
    BarChart3,
    FileBarChart2,
+   Users,
+   Car,
 } from "lucide-react";
 import { useSidebarState } from "@/hooks/useSidebarState";
 import { useState } from "react";

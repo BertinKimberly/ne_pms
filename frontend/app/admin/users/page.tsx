@@ -49,7 +49,6 @@ const columns: ColumnDef<User>[] = [
 export default function UsersPage() {
   const { data: userData, isPending: isUserPending } = useAllUsers();
 
-  console.log("Mana unejeje Imitima yacu",userData);
   
   
   return (

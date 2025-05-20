@@ -121,10 +121,6 @@ export class CreateParkingDto {
    @IsInt()
    @IsPositive({ message: "Total spaces must be a positive integer" })
    totalSpaces: number;
-
-   @IsNumber()
-   @IsPositive({ message: "Fee per hour must be a positive number" })
-   feePerHour: number;
 }
 
 export class ParkingEntryDto {

@@ -40,7 +40,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
          <div className="flex flex-col w-full">
             <DashboardNavbar />
             <div className="p-6 bg-gray-50 w-full overflow-y-auto h-full">
-               <div className="mx-auto max-w-7xl">
+               <div className="mx-auto">
                   {children}
                </div>
             </div>

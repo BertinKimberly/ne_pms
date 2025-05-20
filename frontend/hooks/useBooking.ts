@@ -90,6 +90,12 @@ export const useMyBookings = () => {
     onError: (error: any) => {
       console.error("Error fetching user bookings:", error);
     },
+    select: (data) => {
+      if (Array.isArray(data) && data.length === 0) {
+        return { success: true, data: [] };
+      }
+      return data;
+    }
   });
 };
 
@@ -126,6 +132,12 @@ export const useAllBookings = () => {
     onError: (error: any) => {
       console.error("Error fetching all bookings:", error);
     },
+    select: (data) => {
+      if (Array.isArray(data) && data.length === 0) {
+        return { success: true, data: [] };
+      }
+      return data;
+    }
   });
 };
 

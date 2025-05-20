@@ -198,7 +198,6 @@ class ParkingService {
             location: data.location,
             totalSpaces: data.totalSpaces,
             availableSpaces: data.totalSpaces,
-            feePerHour: data.feePerHour,
          },
       });
    }
@@ -526,7 +525,6 @@ class ParkingService {
          parkingName: activity.parking.name,
          parkingCode: activity.parking.code,
          location: activity.parking.location,
-         feePerHour: activity.parking.feePerHour,
       };
    }
 
@@ -557,7 +555,6 @@ class ParkingService {
             parkingName: activity.parking.name,
             parkingCode: activity.parking.code,
             estimatedDuration: `${durationHours.toFixed(2)} hours`,
-            feePerHour: activity.parking.feePerHour,
             isEstimate: true,
          };
       } else {
@@ -571,7 +568,6 @@ class ParkingService {
             parkingName: activity.parking.name,
             parkingCode: activity.parking.code,
             duration: activity.duration ? `${activity.duration.toFixed(2)} hours` : 'N/A',
-            feePerHour: activity.parking.feePerHour,
             isEstimate: false,
          };
       }

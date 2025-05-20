@@ -1,4 +1,3 @@
-
 import { Request, Response } from "express";
 import { sendResponse } from '../response';
 import parkingService from "../services/parking.service";
@@ -8,9 +7,9 @@ class ParkingController {
    async getParkingSlots(_req: Request, res: Response) {
       try {
          const slots = await parkingService.getAllParkingSlots();
-         res.json(slots);
+         sendResponse(res, 200, true, 'Parking slots retrieved successfully', slots);
       } catch (error) {
-         res.status(500).json({ message: error.message });
+         sendResponse(res, error.statusCode || 500, false, error.message);
       }
    }
 
@@ -47,9 +46,9 @@ class ParkingController {
          const slots = await parkingService.getAvailableSlots(
             vehicleType as any
          );
-         res.json(slots);
+         sendResponse(res, 200, true, 'Available parking slots retrieved successfully', slots);
       } catch (error) {
-         res.status(500).json({ message: error.message });
+         sendResponse(res, error.statusCode || 500, false, error.message);
       }
    }
 

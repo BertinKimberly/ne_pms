@@ -26,6 +26,11 @@ enum BookingStatus {
   CANCELLED
 }
 
+enum ParkingStatus {
+  ACTIVE
+  COMPLETED
+}
+
 model User {
   id          String      @id @default(uuid())
   firstName   String
@@ -69,7 +74,19 @@ model Parking {
   parkingEntries ParkingEntry[]
 
   @@map("parkings")
-  Booking Booking[]
+}
+
+model ParkingSlot {
+  id          String      @id @default(uuid())
+  number      String      @unique
+  floor       Int
+  isAvailable Boolean     @default(true)
+  vehicleId   String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  bookings    Booking[]
+
+  @@map("parking_slots")
 }
 
 model ParkingEntry {
@@ -83,6 +100,8 @@ model ParkingEntry {
   entryDateTime DateTime     @default(now())
   exitDateTime  DateTime?
   ticketNumber  String       @unique
+  status        ParkingStatus @default(ACTIVE)
+  duration      Float?
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
 
@@ -92,7 +111,7 @@ model ParkingEntry {
 model Booking {
   id            String       @id @default(uuid())
   parkingSlotId String
-  parking   Parking  @relation(fields: [parkingSlotId], references: [id])
+  parkingSlot   ParkingSlot  @relation(fields: [parkingSlotId], references: [id])
   vehicleId     String
   vehicle       Vehicle      @relation(fields: [vehicleId], references: [id])
   userId        String

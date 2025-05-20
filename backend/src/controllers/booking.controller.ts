@@ -2,6 +2,7 @@
 import { Request, Response } from "express";
 import bookingService from "../services/booking.service";
 import { BadRequestError } from "../utils/helpers";
+import { sendResponse } from "../response";
 
 class BookingController {
    async getBookingById(req: Request, res: Response) {
@@ -11,9 +12,9 @@ class BookingController {
          if (!booking) {
             throw new BadRequestError("Booking not found");
          }
-         res.json(booking);
+         sendResponse(res, 200, true, "Booking retrieved successfully", booking);
       } catch (error) {
-         res.status(error.statusCode || 500).json({ message: error.message });
+         sendResponse(res, error.statusCode || 500, false, error.message);
       }
    }
 
@@ -24,9 +25,9 @@ class BookingController {
          }
          //@ts-ignore
          const bookings = await bookingService.getUserBookings(req.user.id);
-         res.json(bookings);
+         sendResponse(res, 200, true, "User bookings retrieved successfully", bookings);
       } catch (error) {
-         res.status(error.statusCode || 500).json({ message: error.message });
+         sendResponse(res, error.statusCode || 500, false, error.message);
       }
    }
 
@@ -40,9 +41,9 @@ class BookingController {
          //@ts-ignore
          const booking = await bookingService.createBooking(req.user.id, parkingSlotId, vehicleId, startTime);
          
-         res.status(201).json(booking);
+         sendResponse(res, 201, true, "Booking created successfully", booking);
       } catch (error) {
-         res.status(error.statusCode || 500).json({ message: error.message });
+         sendResponse(res, error.statusCode || 500, false, error.message);
       }
    }
 
@@ -50,18 +51,18 @@ class BookingController {
       try {
          const { id } = req.params;
          const booking = await bookingService.cancelBooking(id);
-         res.json(booking);
+         sendResponse(res, 200, true, "Booking cancelled successfully", booking);
       } catch (error) {
-         res.status(error.statusCode || 500).json({ message: error.message });
+         sendResponse(res, error.statusCode || 500, false, error.message);
       }
    }
 
    async getAllBookings(_req: Request, res: Response) {
       try {
          const bookings = await bookingService.getAllBookings();
-         res.json(bookings);
+         sendResponse(res, 200, true, "All bookings retrieved successfully", bookings);
       } catch (error) {
-         res.status(error.statusCode || 500).json({ message: error.message });
+         sendResponse(res, error.statusCode || 500, false, error.message);
       }
    }
 }

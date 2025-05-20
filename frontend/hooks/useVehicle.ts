@@ -61,6 +61,12 @@ export const useMyVehicles = () => {
       onError: (error: any) => {
          console.error("Error fetching user vehicles:", error);
       },
+      select: (data) => {
+         if (Array.isArray(data) && data.length === 0) {
+            return { success: true, data: [] };
+         }
+         return data;
+      }
    });
 };
 

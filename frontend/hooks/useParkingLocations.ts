@@ -21,7 +21,6 @@ export interface CreateParkingLocationDto {
   name: string;
   location: string;
   totalSpaces: number;
-  feePerHour: number;
 }
 
 // API call functions

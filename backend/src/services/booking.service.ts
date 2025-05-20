@@ -9,7 +9,7 @@ class BookingService {
       return prisma.booking.findUnique({
          where: { id },
          include: {
-            parking: true,
+            parkingSlot: true,
             vehicle: true,
          },
       });
@@ -23,7 +23,7 @@ class BookingService {
             },
          },
          include: {
-            parking: true,
+            parkingSlot: true,
             vehicle: true,
          },
          orderBy: {
@@ -35,7 +35,7 @@ class BookingService {
    async getAllBookings(): Promise<Booking[]> {
       return prisma.booking.findMany({
          include: {
-            parking: true,
+            parkingSlot: true,
             vehicle: {
                include: {
                   user: {
@@ -79,8 +79,8 @@ class BookingService {
          });
 
          // Mark slot as available
-         await tx.parking.update({
-            where: { id: booking.parkingId },
+         await tx.parkingSlot.update({
+            where: { id: booking.parkingSlotId },
             data: {
                isAvailable: true,
                vehicleId: null,
