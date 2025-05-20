@@ -10,7 +10,6 @@ import {
    IsEnum,
    IsUUID,
    IsPositive,
-   IsNumber,
    MinLength,
    ValidateIf
 } from "class-validator";

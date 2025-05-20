@@ -86,15 +86,7 @@ export default function SideNavbar() {
             <Link href="/">TMS</Link>
          </div>
 
-         <Link
-            href={"/admin/add-parking"}
-            className={`flex items-center justify-center bg-white rounded text-blue-500 hover:!bg-input transition-all duration-300 px-4 py-2.5 ${
-               isCollapsed ? "w-[70%] mx-auto" : "space-x-3"
-            }`}
-         >
-            <Plus className={`w-[20px] ${isCollapsed && ""}`} />
-            <p className="text-sm">{!isCollapsed && "Add new website"}</p>
-         </Link>
+      
 
          <Nav
             isCollapsed={isCollapsed}

@@ -32,6 +32,50 @@ class BookingService {
       });
    }
 
+   async createBooking(userId: string, parkingSlotId: string, vehicleId: string, startTime: string): Promise<Booking> {
+      // Check if slot is available
+      const slot = await prisma.parkingSlot.findUnique({
+         where: { id: parkingSlotId },
+      });
+
+      if (!slot || !slot.isAvailable) {
+         throw new BadRequestError("Parking slot is not available");
+      }
+
+      // Check if vehicle belongs to the user
+      const vehicle = await prisma.vehicle.findUnique({
+         where: { id: vehicleId },
+      });
+
+      if (!vehicle || vehicle.userId !== userId) {
+         throw new BadRequestError("Vehicle does not belong to the user");
+      }
+
+      // Start transaction
+      return prisma.$transaction(async (tx) => {
+         // Create booking
+         const booking = await tx.booking.create({
+            data: {
+               parkingSlotId,
+               vehicleId,
+               startTime: new Date(startTime),
+               status: BookingStatus.ACTIVE,
+            },
+         });
+
+         // Mark slot as occupied
+         await tx.parkingSlot.update({
+            where: { id: parkingSlotId },
+            data: {
+               isAvailable: false,
+               vehicleId,
+            },
+         });
+
+         return booking;
+      });
+   }
+
    async getAllBookings(): Promise<Booking[]> {
       return prisma.booking.findMany({
          include: {

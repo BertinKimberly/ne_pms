@@ -148,7 +148,7 @@ const AdminPage = () => {
     }
   };
 
-  const filteredBookings = bookingsQuery.data?.filter(booking => 
+  const filteredBookings = bookingsQuery.data?.data?.filter(booking => 
     booking.vehicle.plateNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
     booking.user.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
     booking.user.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||

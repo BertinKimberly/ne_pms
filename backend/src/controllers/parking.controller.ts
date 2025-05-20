@@ -9,7 +9,7 @@ class ParkingController {
          const slots = await parkingService.getAllParkingSlots();
          sendResponse(res, 200, true, 'Parking slots retrieved successfully', slots);
       } catch (error) {
-         sendResponse(res, error.statusCode || 500, false, error.message);
+         sendResponse(res, error.statusCode || 500, false, error.message || 'Failed to retrieve parking slots');
       }
    }
 
@@ -21,9 +21,9 @@ class ParkingController {
             floor,
             isAvailable
          );
-         res.status(201).json(slot);
+         sendResponse(res, 201, true, 'Parking slot created successfully', slot);
       } catch (error) {
-         res.status(400).json({ message: error.message });
+         sendResponse(res, error.statusCode || 400, false, error.message || 'Failed to create parking slot');
       }
    }
 
