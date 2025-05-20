@@ -11,18 +11,21 @@ router.get(
    authorize(Role.ADMIN),
    userController.getAllUsers
 );
+
 router.get(
    "/:id",
    authenticate,
    authorize(Role.ADMIN),
    userController.getUserById
 );
+
 router.patch(
    "/:id/role",
    authenticate,
    authorize(Role.ADMIN),
    userController.updateUserRole
 );
+
 router.delete(
    "/:id",
    authenticate,
@@ -30,4 +33,4 @@ router.delete(
    userController.deleteUser
 );
 
-export { router as UsersRouter };
+export default router;

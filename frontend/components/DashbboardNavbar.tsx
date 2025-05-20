@@ -62,31 +62,7 @@ const DashboardNavbar = () => {
                      <Bell size={18} />
                   </Button>
                   
-                  <Link href="/dashboard/explore">
-                     <Button 
-                        variant="ghost" 
-                        size="sm"
-                        className={`rounded-full flex items-center gap-1 ${
-                           pathname.includes('/explore') ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
-                        }`}
-                     >
-                        <MapPin size={16} />
-                        <span className="hidden lg:inline-block">Explore</span>
-                     </Button>
-                  </Link>
-                  
-                  <Link href="/dashboard/bookings">
-                     <Button 
-                        variant="ghost" 
-                        size="sm"
-                        className={`rounded-full flex items-center gap-1 ${
-                           pathname.includes('/bookings') ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
-                        }`}
-                     >
-                        <Calendar size={16} />
-                        <span className="hidden lg:inline-block">Bookings</span>
-                     </Button>
-                  </Link>
+                
                   
                   {/* User Profile Dropdown */}
                   <DropdownMenu>
@@ -98,15 +74,7 @@ const DashboardNavbar = () => {
                         </Button>
                      </DropdownMenuTrigger>
                      <DropdownMenuContent align="end" className="w-56">
-                        <div className="flex items-center p-3 border-b">
-                           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 via-indigo-500 to-blue-400 flex items-center justify-center text-white text-sm font-medium mr-3">
-                              {user?.firstName?.[0]}{user?.lastName?.[0]}
-                           </div>
-                           <div>
-                              <p className="font-medium">{user?.firstName} {user?.lastName}</p>
-                              <p className="text-xs text-gray-500">{user?.email}</p>
-                           </div>
-                        </div>
+                        
                         
                         <DropdownMenuGroup className="p-1">
                            <DropdownMenuItem asChild>

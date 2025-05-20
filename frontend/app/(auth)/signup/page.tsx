@@ -157,9 +157,7 @@ const SignupPage = () => {
             <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-blue-600 via-indigo-500 to-blue-400"></div>
 
             <div className="flex flex-col items-center justify-center pt-10 pb-4">
-               <div className="rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 p-3 shadow-lg mb-4">
-                  <UserPlus className="h-6 w-6 text-white" />
-               </div>
+              
                <h2 className="text-2xl font-bold text-center mb-1">
                   Create Account
                </h2>
@@ -318,7 +316,7 @@ const SignupPage = () => {
 
                      <Button
                         type="submit"
-                        className="w-full h-12 font-medium bg-gradient-to-br from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 transition-colors shadow-md mt-2"
+                        className="w-full h-12 text-white cursor-pointer font-medium bg-gradient-to-br from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 transition-colors shadow-md mt-2"
                         disabled={isSubmitting}
                      >
                         {isSubmitting ? (

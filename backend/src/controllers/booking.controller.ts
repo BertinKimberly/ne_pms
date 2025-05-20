@@ -30,6 +30,22 @@ class BookingController {
       }
    }
 
+   async createBooking(req: Request, res: Response) {
+      try {
+         if (!req.user) {
+            throw new BadRequestError("User not authenticated");
+         }
+         
+         const { parkingSlotId, vehicleId, startTime } = req.body;
+         //@ts-ignore
+         const booking = await bookingService.createBooking(req.user.id, parkingSlotId, vehicleId, startTime);
+         
+         res.status(201).json(booking);
+      } catch (error) {
+         res.status(error.statusCode || 500).json({ message: error.message });
+      }
+   }
+
    async cancelBooking(req: Request, res: Response) {
       try {
          const { id } = req.params;

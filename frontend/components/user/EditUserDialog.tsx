@@ -23,16 +23,11 @@ export default function EditUserDialog({ user }: EditUserDialogProps) {
             return;
         }
         try {
-            const response = await updateUserRoleMutation.mutateAsync({
-                userId: user.id,
+            await updateUserRoleMutation.mutateAsync({
+                id: user.id,
                 role: role as "ADMIN" | "USER",
             });
-            if (response.success) {
-                toast.success(response.message);
-                setIsOpen(false);
-            } else {
-                toast.error(response.message);
-            }
+            setIsOpen(false);
         } catch (error) {
             toast.error("Updating user role failed!");
         }

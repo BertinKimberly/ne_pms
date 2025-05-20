@@ -1,26 +1,46 @@
 // routes/booking.routes.ts
 import { Router } from 'express';
 import bookingController from '../controllers/booking.controller';
-import { authMiddleware } from '../middlewares/auth.middleware';
-import { roleMiddleware } from '../middlewares/role.middleware';
+import { authenticate, authorize } from '../middlewares/auth.middleware';
+import { Role } from '@prisma/client';
+import { validateDto } from '../middlewares/validation.middleware';
+import { CreateBookingDto } from '../types/custom.types';
 
 const router = Router();
 
 // Protected routes
-router.get('/me', authMiddleware, bookingController.getMyBookings);
-router.get('/:id', authMiddleware, bookingController.getBookingById);
+router.get(
+  '/me', 
+  authenticate, 
+  bookingController.getMyBookings
+);
+
+router.get(
+  '/:id', 
+  authenticate, 
+  bookingController.getBookingById
+);
+
+router.post(
+  '/',
+  authenticate,
+  authorize(Role.USER),
+  validateDto(CreateBookingDto),
+  bookingController.createBooking
+);
+
 router.post(
   '/:id/cancel',
-  authMiddleware,
+  authenticate,
   bookingController.cancelBooking
 );
 
-// Admin-only routes
+// Admin and Attendant routes
 router.get(
   '/',
-  authMiddleware,
-  roleMiddleware(['ADMIN', 'ATTENDANT']),
+  authenticate,
+  authorize(Role.ADMIN, Role.ATTENDANT),
   bookingController.getAllBookings
 );
 
-export {router as BookingRouter}
+export default router;

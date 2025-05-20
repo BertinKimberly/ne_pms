@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import {
     Dialog,
@@ -13,38 +12,34 @@ import { toast } from "sonner";
 import { useRegisterUser } from "@/hooks/useAuth";
 
 export function AddUserDialog() {
-    const [fullName, setFullName] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [role, setRole] = useState(""); // Role is optional
     const [password, setPassword] = useState("");
     const registerMutation = useRegisterUser();
 
     const handleAddUser = async () => {
-        // Validation for required fields (role is now optional)
-        if (!fullName || !email || !password) {
-            toast.error("Full Name, Email, and Password are required");
+        // Validation for required fields
+        if (!firstName || !lastName || !email || !password) {
+            toast.error("First Name, Last Name, Email, and Password are required");
             return;
         }
 
         try {
-            const response = await registerMutation.mutateAsync({
+            await registerMutation.mutateAsync({
                 firstName,
                 lastName,
                 email,
-                //@ts-ignore
                 password,
                 role: role || undefined, // Send role as undefined if empty
             });
-            if (response.success) {
-                toast.success(response.message);
-                // Reset fields after successful registration
-                setRole("");
-                setFullName("");
-                setEmail("");
-                setPassword("");
-            } else {
-                toast.error(response.error.msg);
-            }
+            // Reset fields after successful registration
+            setFirstName("");
+            setLastName("");
+            setEmail("");
+            setPassword("");
+            setRole("");
         } catch (error) {
             toast.error("Adding user failed");
         }
@@ -61,16 +56,24 @@ export function AddUserDialog() {
                 <DialogHeader>
                     <DialogTitle>Add New User</DialogTitle>
                     <DialogDescription>
-                        Enter the full name of the user, email, password, and assign a role (optional).
+                        Enter the user details and assign a role (optional).
                     </DialogDescription>
                 </DialogHeader>
                 <div className="flex flex-col gap-4">
                     <input
                         type="text"
                         className="border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-main"
-                        placeholder="Full Name"
-                        value={fullName}
-                        onChange={(e) => setFullName(e.target.value)}
+                        placeholder="First Name"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                    />
+
+                    <input
+                        type="text"
+                        className="border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-main"
+                        placeholder="Last Name"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
                     />
 
                     <input

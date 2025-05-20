@@ -4,6 +4,7 @@ import "./globals.css";
 import AuthProvider from "@/providers/auth.provider";
 import ReactQueryProvider from "@/providers/react.query.provider";
 import NpProgress from "@/components/NpProgress";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,6 +37,17 @@ export default function RootLayout({
           <NpProgress />
                </ReactQueryProvider>
             </AuthProvider>
+            <Toaster
+              position="bottom-right"
+              richColors
+              toastOptions={{
+                className: "bg-white text-slate-900 dark:bg-slate-900 dark:text-white",
+                style: {
+                  backgroundColor: "white",
+                  color: "black",
+                },
+              }}
+            />
       </body>
     </html>
   );

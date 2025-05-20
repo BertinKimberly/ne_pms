@@ -9,7 +9,8 @@ import { AddUserDialog } from "@/components/user/AddUserDialog";
 // import DeleteUserDialog from "@/components/user/DeleteUserDialog";
 import { User } from "@/types";
 import EditUserDialog from "@/components/user/EditUserDialog";
-import { useGetAllUsers } from "@/hooks/useUsers";
+import { useAllUsers } from "@/hooks/useUsers";
+
 
 
 
@@ -46,7 +47,7 @@ const columns: ColumnDef<User>[] = [
 
 
 export default function UsersPage() {
-  const { data: userData, isPending: isUserPending } = useGetAllUsers();
+  const { data: userData, isPending: isUserPending } = useAllUsers();
 
   console.log("Mana unejeje Imitima yacu",userData);
   

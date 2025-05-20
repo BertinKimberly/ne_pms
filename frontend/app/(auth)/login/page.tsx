@@ -50,15 +50,17 @@ const LoginPage = () => {
       setIsSubmitting(true);
       try {
          const response = await loginMutation.mutateAsync(data);
-         if (response?.user && response?.token) {
-            document.cookie = `auth_token=${response.token}; path=/; max-age=${
+         console.log("Data from login mutation:", response);
+         
+         if (response?.data.user && response?.data.token) {
+            document.cookie = `auth_token=${response.data.token}; path=/; max-age=${
                24 * 60 * 60
             }; SameSite=Strict; Secure`;
 
             if (redirectUrl) {
                router.push(redirectUrl);
             } else {
-               const userData = response.user;
+               const userData = response.data.user;
                const roleRedirects: Record<string, string> = {
                   ADMIN: "/admin",
                   COMPANY_ADMIN: "/company-admin",
@@ -69,6 +71,9 @@ const LoginPage = () => {
                router.push(redirectPath);
             }
          }
+
+         console.log("Login successful:", response);
+         
       } catch (error) {
          // Error is already handled in useLoginUser's onError
       } finally {
@@ -140,9 +145,7 @@ const LoginPage = () => {
             <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-blue-600 via-indigo-500 to-blue-400"></div>
 
             <div className="flex flex-col items-center justify-center pt-10 pb-4">
-               <div className="rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 p-3 shadow-lg mb-4">
-                  <LogIn className="h-6 w-6 text-white" />
-               </div>
+              
                <h2 className="text-2xl font-bold text-center mb-1">
                   Welcome Back
                </h2>
@@ -232,7 +235,7 @@ const LoginPage = () => {
                      />
                      <Button
                         type="submit"
-                        className="w-full h-12 font-medium bg-gradient-to-br from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 transition-colors shadow-md cursor-pointer"
+                        className="w-full h-12 text-white font-medium bg-gradient-to-br from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 transition-colors shadow-md cursor-pointer"
                         disabled={isSubmitting}
                      >
                         {isSubmitting ? (

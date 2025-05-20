@@ -39,6 +39,16 @@ class AuthController {
       sendResponse(res, error.statusCode || 500, false, error.message);
     }
   }
+  
+  async logout(_req: Request, res: Response) {
+    try {
+      // No need to do anything server-side 
+      // The client will handle removing the token
+      sendResponse(res, 200, true, 'Logout successful');
+    } catch (error) {
+      sendResponse(res, error.statusCode || 500, false, error.message);
+    }
+  }
 }
 
 export default new AuthController();

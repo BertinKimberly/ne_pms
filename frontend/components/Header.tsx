@@ -34,13 +34,13 @@ const Header: React.FC = () => {
           
           <div className="hidden md:flex items-center space-x-4">
             <Link href="/login">
-              <Button variant="ghost" size="sm" className="flex items-center">
+              <Button variant="ghost" size="sm" className="flex items-center cursor-pointer">
                 <LogIn className="h-4 w-4 mr-2" />
                 Login
               </Button>
             </Link>
             <Link href="/signup">
-              <Button size="sm">Sign Up</Button>
+              <Button size="sm" className='cursor-pointer'>Sign Up</Button>
             </Link>
           </div>
           

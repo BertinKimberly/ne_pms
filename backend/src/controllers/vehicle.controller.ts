@@ -26,8 +26,17 @@ class VehicleController {
          if (!req.user) {
             throw new BadRequestError("User not authenticated");
          }
-         const vehicles = await vehicleService.getVehiclesByUser(req.user.id);
-         res.json(vehicles);
+         try {
+            const vehicles = await vehicleService.getVehiclesByUser(req.user.id);
+            res.json(vehicles);
+         } catch (error) {
+            // If no vehicles found, return an empty array instead of an error
+            if (error.message === "No vehicles found for this user") {
+               res.json([]);
+            } else {
+               throw error;
+            }
+         }
       } catch (error) {
          res.status(error.statusCode || 500).json({ message: error.message });
       }

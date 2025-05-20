@@ -147,7 +147,7 @@ router.get(
    '/reports/exits', 
    authenticate, 
    authorize(Role.ADMIN), 
-   validateDto(DateRangeDto),  // Changed from validate(dateRangeSchema)
+   validateDto(DateRangeDto),  
    parkingController.getCompletedActivitiesByDateRange
  );
 

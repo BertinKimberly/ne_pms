@@ -120,13 +120,13 @@ export default function DashbboardNavbar() {
                   className="w-[90%] sm:max-w-[425px] bg-white p-[2px]"
                   style={{
                      backgroundImage:
-                        "linear-gradient(white, white), linear-gradient(to right, #3b82f6, #8b5cf6, #ec4899)",
+                        "linear-gradient(white, white), linear-gradient(to right, #3b82f6)",
                      backgroundOrigin: "border-box",
                      backgroundClip: "content-box, border-box",
                   }}
                >
                   <DialogHeader>
-                     <DialogTitle className="text-transparent bg-clip-text bg-gradient-to-r from-main via-blue-400 to-pink-200 p-4">
+                     <DialogTitle className="text-destructive p-4">
                         Confirm Logout
                      </DialogTitle>
                      <DialogDescription className="px-4">
@@ -144,7 +144,7 @@ export default function DashbboardNavbar() {
                      <Button
                         onClick={handleLogout}
                         disabled={isLoggingOut}
-                        className="bg-gradient-to-br from-pink-200 via-[#64A2FF] to-blue-500"
+                        className="bg-gradient-to-br from-pink-200 via-[#64A2FF] to-blue-500 "
                      >
                         {isLoggingOut ? "Logging out..." : "Logout"}
                      </Button>

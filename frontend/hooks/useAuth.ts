@@ -32,12 +32,11 @@ const logoutUser = () => {
 export const useLoginUser = () => {
    const setUser = useAuthStore((state) => state.setUser);
    const setIsAuthenticated = useAuthStore((state) => state.setIsAuthenticated);
-
    return useMutation({
       mutationFn: loginUser,
       onSuccess: (data: any) => {
-         if (data?.user && data?.token) {
-            const userData = data.user;
+         if (data?.data?.user && data?.data?.token) {
+            const userData = data.data?.user;
             setUser({
                id: userData.id,
                firstName: userData.firstName,
@@ -46,6 +45,11 @@ export const useLoginUser = () => {
                role: userData.role,
             });
             setIsAuthenticated(true);
+            
+            // Set the auth_token cookie
+            const expiresIn = 24 * 60 * 60; // 1 day in seconds
+            document.cookie = `auth_token=${data.data.token}; path=/; max-age=${expiresIn};`;
+            
             toast.success("Login successful!");
             return data;
          } else {

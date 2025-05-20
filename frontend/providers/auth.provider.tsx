@@ -5,6 +5,8 @@ import { useAuthStore } from "@/store/useAuthStore";
 import { jwtDecode } from "jwt-decode";
 import BounceLoader from "react-spinners/BounceLoader";
 import { useRouter } from "next/navigation";
+import { authorizedAPI } from "@/lib/api";
+import handleApiRequest from "@/utils/handleApiRequest";
 
 interface AuthProviderProps {
    children: ReactNode;
@@ -35,41 +37,66 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       setIsAuthenticated(false);
       router.push("/login");
    };
+   
+   const fetchUserProfile = async () => {
+      try {
+         const response = await handleApiRequest(() => authorizedAPI.get("/auth/profile"));
+         
+         if (response?.data) {
+            setUser({
+               id: response.data.id,
+               firstName: response.data.firstName,
+               lastName: response.data.lastName,
+               email: response.data.email,
+               role: response.data.role,
+            });
+            setIsAuthenticated(true);
+            return true;
+         }
+         return false;
+      } catch (error) {
+         console.error("Error fetching user profile:", error);
+         handleLogout();
+         return false;
+      }
+   };
 
-   const validateToken = () => {
+   const validateToken = async () => {
       try {
          const token = getCookie("auth_token");
          if (!token) {
             setIsAuthenticated(false);
+            setLoading(false);
             return false;
          }
 
          const decodedToken = jwtDecode<JwtPayload>(token);
          if (!decodedToken || !decodedToken.id) {
             handleLogout();
+            setLoading(false);
             return false;
          }
 
          if (decodedToken.exp && decodedToken.exp * 1000 < Date.now()) {
             handleLogout();
+            setLoading(false);
             return false;
          }
 
-         // If user is not in store but token is valid, we might need to fetch user data
+         // If user is not in store but token is valid, fetch user data
          if (!user) {
-            // Optionally fetch user data from API using the token
-            // For now, assume login sets the user
-            setIsAuthenticated(true);
+            await fetchUserProfile();
          } else {
             setIsAuthenticated(true);
          }
+         
+         setLoading(false);
          return true;
       } catch (error) {
          console.error("AuthProvider: Token validation error:", error);
          handleLogout();
-         return false;
-      } finally {
          setLoading(false);
+         return false;
       }
    };
 

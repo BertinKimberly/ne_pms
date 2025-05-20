@@ -1,4 +1,3 @@
-
 import { Router } from 'express';
 import vehicleController from '../controllers/vehicle.controller';
 import { authenticate } from '../middlewares/auth.middleware';
@@ -6,7 +5,7 @@ import { authenticate } from '../middlewares/auth.middleware';
 const router = Router();
 
 // User routes
-router.get('/user', authenticate, vehicleController.getMyVehicles);
+router.get('/me', authenticate, vehicleController.getMyVehicles);
 
 // General routes
 router.get('/:id', authenticate, vehicleController.getVehicleById);
