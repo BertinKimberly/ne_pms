@@ -1,0 +1,23 @@
+graph TD
+    L[Client Applications] --> A[Express API Server]
+    
+    A --> B[Auth Service]
+    A --> C[User Service]
+    A --> D[Parking Service]
+    A --> E[Vehicle Service]
+    A --> F[Booking Service]
+    
+    B --> G[(Prisma ORM)]
+    C --> G
+    D --> G
+    E --> G
+    F --> G
+    
+    G --> H[(Database)]
+    
+    A --> I[Swagger UI API Docs]
+    
+    J[Scheduled Jobs] --> D
+    J --> F
+    
+    A --> K[Error Handling Middleware]

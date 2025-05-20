@@ -1,0 +1,106 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+  ATTENDANT
+}
+
+enum VehicleType {
+  CAR
+  MOTORCYCLE
+  TRUCK
+  VAN
+}
+
+enum BookingStatus {
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+model User {
+  id          String      @id @default(uuid())
+  firstName   String
+  lastName    String
+  email       String      @unique
+  password    String
+  role        Role        @default(USER)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  deletedAt   DateTime?
+  vehicles    Vehicle[]
+  parkingEntries ParkingEntry[]
+
+  @@map("users")
+  Booking Booking[] @relation(name: "UserBookings")
+}
+
+model Vehicle {
+  id           String         @id @default(uuid())
+  plateNumber  String         @unique
+  type         VehicleType
+  userId       String
+  user         User           @relation(fields: [userId], references: [id])
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  parkingEntries ParkingEntry[]
+
+  @@map("vehicles")
+  Booking Booking[]
+}
+
+model Parking {
+  id          String      @id @default(uuid())
+  code        String      @unique
+  name        String
+  location    String
+  totalSpaces Int
+  availableSpaces Int
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  parkingEntries ParkingEntry[]
+
+  @@map("parkings")
+  Booking Booking[]
+}
+
+model ParkingEntry {
+  id            String       @id @default(uuid())
+  vehicleId     String
+  vehicle       Vehicle      @relation(fields: [vehicleId], references: [id])
+  parkingId     String
+  parking       Parking      @relation(fields: [parkingId], references: [id])
+  userId        String
+  user          User         @relation(fields: [userId], references: [id])
+  entryDateTime DateTime     @default(now())
+  exitDateTime  DateTime?
+  ticketNumber  String       @unique
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  @@map("parking_entries")
+}
+
+model Booking {
+  id            String       @id @default(uuid())
+  parkingSlotId String
+  parking   Parking  @relation(fields: [parkingSlotId], references: [id])
+  vehicleId     String
+  vehicle       Vehicle      @relation(fields: [vehicleId], references: [id])
+  userId        String
+  user          User         @relation(fields: [userId], references: [id], name: "UserBookings")
+  startTime     DateTime     
+  endTime       DateTime?
+  status        BookingStatus @default(ACTIVE) 
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
