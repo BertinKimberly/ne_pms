@@ -97,7 +97,7 @@ const ParkingsPage = () => {
       header: "Fee/Hour",
       cell: ({ row }) => (
         <div className="text-right font-medium">
-          {row.original.feePerHour.toLocaleString()} RWF
+          {row.original.feePerHour?.toLocaleString()} RWF
         </div>
       ),
     },
